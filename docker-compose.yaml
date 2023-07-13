@@ -1,0 +1,27 @@
+version: '3.7'
+
+x-db-envs: &db-envs
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: 5432
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: usu
+
+services:
+  postgres:
+    image: postgres:15.3-alpine3.18
+    environment: *db-envs
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - pgdata:/var/lib/postgresql/data
+      - ./tmp:/tmp
+  nginx:
+    image: nginx:alpine
+    container_name: um-nginx
+    ports:
+      - '3080:3080'
+volumes:
+  pgdata:
+    driver: local
