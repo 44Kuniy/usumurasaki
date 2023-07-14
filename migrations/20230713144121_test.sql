@@ -1,5 +1,0 @@
-CREATE TABLE IF NOT EXISTS tests (
-    id              BIGSERIAL NOT NULL PRIMARY KEY,
-    inserted_at     TIMESTAMP NOT NULL default CURRENT_TIMESTAMP,
-    updated_at      TIMESTAMP NOT NULL default CURRENT_TIMESTAMP
-);
