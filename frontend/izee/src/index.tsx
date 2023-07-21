@@ -10,7 +10,7 @@ import { CssBaseline } from "@mui/material";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "https://flyby-router-demo.herokuapp.com/",
+  uri: "http://localhost:4492/api/graphql",
   cache: new InMemoryCache(),
 });
 

@@ -7,6 +7,12 @@ async fn index(
     schema: web::Data<Schema<Query, EmptyMutation, EmptySubscription>>,
     req: GraphQLRequest,
 ) -> GraphQLResponse {
+    let request = &req.0;
+    let query = &request.query;
+    let vars = &request.variables;
+    println!("query : {:#?}", query);
+    println!("vars : {:#?}", vars);
+
     schema.execute(req.into_inner()).await.into()
 }
 
@@ -18,7 +24,7 @@ async fn index(
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    println!("GraphiQL IDE: http://localhost:8000");
+    println!("GraphiQL IDE: http://localhost:5000");
 
     HttpServer::new(move || {
         App::new()
@@ -28,8 +34,11 @@ async fn main() -> std::io::Result<()> {
                 EmptySubscription,
             )))
             .service(web::resource("/").to(index))
+            .service(
+                web::scope("/api").service(web::resource("/graphql").route(web::post().to(index))),
+            )
     })
-    .bind("127.0.0.1:8000")?
+    .bind("0.0.0.0:5000")?
     .run()
     .await
 }
