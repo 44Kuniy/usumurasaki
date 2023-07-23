@@ -18,15 +18,33 @@ import React, { FC, useState } from "react";
 import { Navigate, Outlet, RouteObject, useRoutes } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 
-const GET_LOCATIONS = gql`
-  query GetLocations {
+const TEST = gql`
+  query Test {
     howdy
+  }
+`;
+
+const GET_CHANNELS = gql`
+  query Channels {
+    channels {
+      id
+    }
+  }
+`;
+
+const GET_USERS = gql`
+  query Users {
+    users {
+      id
+      name
+    }
   }
 `;
 
 export const App: FC = () => {
   const content = useRoutes(routes);
-  const { loading, error, data } = useQuery(GET_LOCATIONS);
+  const { loading, error, data } = useQuery(GET_USERS);
+  console.log("loading, error, data ❓: {:#?}", loading, error, data);
 
   return <React.Fragment>{content}</React.Fragment>;
 };
