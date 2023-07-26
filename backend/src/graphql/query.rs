@@ -1,5 +1,5 @@
 use crate::models::*;
-use crate::repository::UserRepo;
+use crate::repository::PartnerRepo;
 use async_graphql::Object;
 use async_graphql::Result as GqlResult;
 use sqlx::Pool;
@@ -20,10 +20,10 @@ impl Query {
         Ok(channels)
     }
 
-    async fn users(&self, _ctx: &async_graphql::Context<'_>) -> GqlResult<Vec<User>> {
-        println!("users QUERY");
+    async fn partners(&self, _ctx: &async_graphql::Context<'_>) -> GqlResult<Vec<Partner>> {
+        println!("partners QUERY");
         let pool = _ctx.data::<Pool<Postgres>>()?;
-        let users = UserRepo::new(pool).all().await?;
+        let users = PartnerRepo::new(pool).all().await?;
         Ok(users)
     }
 }

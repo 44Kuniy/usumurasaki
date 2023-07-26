@@ -5,25 +5,28 @@ use itertools::Itertools;
 use super::{ToSqlValue, ToSqlValues};
 
 #[derive(Debug, Clone, SimpleObject, sqlx::FromRow)]
-pub struct Channel {
-    pub id: String,
+pub struct Partner {
+    pub id: i64,
+    pub name: String,
+    pub mail: String,
 
     pub inserted_at: NaiveDateTime,
     pub updated_at: NaiveDateTime,
 }
 
 #[derive(Debug, Clone, sqlx::FromRow)]
-pub struct NewChannel {
-    pub id: String,
+pub struct NewPartner {
+    pub name: String,
+    pub mail: String,
 }
 
-impl ToSqlValue for NewChannel {
+impl ToSqlValue for NewPartner {
     fn into_sql_value(self) -> String {
-        format!("({})", self.id)
+        format!("({}, {})", self.name, self.mail)
     }
 }
 
-impl ToSqlValues<NewChannel> for Vec<NewChannel> {
+impl ToSqlValues<NewPartner> for Vec<NewPartner> {
     fn into_sql_values(self) -> String {
         self.into_iter().map(|n| n.into_sql_value()).join(",")
     }

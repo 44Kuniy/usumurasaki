@@ -1,5 +1,29 @@
+mod affiliate_item;
 mod chennel;
-mod user;
+mod errors;
+mod importer;
+mod partner;
+mod video;
 
+pub use affiliate_item::*;
 pub use chennel::*;
-pub use user::*;
+pub use errors::*;
+pub use importer::*;
+pub use partner::*;
+pub use video::*;
+
+pub trait ToSqlValues<T> {
+    fn into_sql_values(self) -> String;
+}
+
+pub trait ToSqlValuesWithStringArg<T> {
+    fn into_sql_values(self, arg: String) -> String;
+}
+
+pub trait ToSqlValuesWithi64Arg<T> {
+    fn into_sql_values(self, arg: i64) -> String;
+}
+
+pub trait ToSqlValue {
+    fn into_sql_value(self) -> String;
+}

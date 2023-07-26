@@ -17,6 +17,7 @@ import {
 import React, { FC, useState } from "react";
 import { Navigate, Outlet, RouteObject, useRoutes } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
+import { YoutubeVideo } from "./components/VideoIframe";
 
 const TEST = gql`
   query Test {
@@ -32,18 +33,9 @@ const GET_CHANNELS = gql`
   }
 `;
 
-const GET_USERS = gql`
-  query Users {
-    users {
-      id
-      name
-    }
-  }
-`;
-
 export const App: FC = () => {
   const content = useRoutes(routes);
-  const { loading, error, data } = useQuery(GET_USERS);
+  const { loading, error, data } = useQuery(GET_CHANNELS);
   console.log("loading, error, data ❓: {:#?}", loading, error, data);
 
   return <React.Fragment>{content}</React.Fragment>;
@@ -98,7 +90,15 @@ const routes: RouteObject[] = [
     children: [
       {
         index: true,
-        element: <div>test root</div>,
+        element: (
+          <div>
+            <YoutubeVideo key={"qgc9MqkMrsI"} videoId={"qgc9MqkMrsI"} />
+            <YoutubeVideo key={"En1STDOoYlU"} videoId={"En1STDOoYlU"} />
+            <YoutubeVideo key={"HMF_EizEU1E"} videoId={"HMF_EizEU1E"} />
+            <YoutubeVideo key={"kSZYX8hFNjo"} videoId={"kSZYX8hFNjo"} />
+            <YoutubeVideo key={"P8EHiW9Mco4"} videoId={"P8EHiW9Mco4"} />
+          </div>
+        ),
       },
       {
         path: "2",

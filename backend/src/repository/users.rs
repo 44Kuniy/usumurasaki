@@ -1,18 +1,43 @@
 use sqlx::PgPool;
 
-use crate::User;
+use crate::models::{NewPartner, Partner, SqlxResult, ToSqlValues};
 
-pub struct UserRepo<'a>(pub &'a PgPool);
+pub struct PartnerRepo<'a>(pub &'a PgPool);
 
-impl<'a> UserRepo<'a> {
+impl<'a> PartnerRepo<'a> {
     pub fn new(pool: &'a PgPool) -> Self {
         Self(pool)
     }
 }
 
-impl<'a> UserRepo<'a> {
-    pub async fn all(&self) -> sqlx::Result<Vec<User>, sqlx::Error> {
-        sqlx::query_as::<_, User>("select * from users")
+impl<'a> PartnerRepo<'a> {
+    pub async fn create(&self, new: Vec<NewPartner>) -> SqlxResult<Vec<Partner>> {
+        sqlx::query_as::<_, Partner>(&format!(
+            "INSERT INTO partners (id)
+                VALUES {:#?};",
+            new.into_sql_values()
+        ))
+        .fetch_all(self.0)
+        .await
+    }
+
+    pub async fn create_or_update(&self, new: Vec<NewPartner>) -> SqlxResult<Vec<Partner>> {
+        sqlx::query_as::<_, Partner>(&format!(
+            "INSERT INTO partners (id)
+                VALUES {:#?}
+                ON CONFLICT (mail) 
+                DO UPDATE 
+                    SET name = EXCLUDED.name
+                RETURNING (id, name, mail, inserted_at, updated_at)
+                ;",
+            new.into_sql_values(),
+        ))
+        .fetch_all(self.0)
+        .await
+    }
+
+    pub async fn all(&self) -> SqlxResult<Vec<Partner>> {
+        sqlx::query_as::<_, Partner>("select * from partners;")
             .fetch_all(self.0)
             .await
     }
