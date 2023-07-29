@@ -1,9 +1,12 @@
-use crate::models::*;
-use crate::repository::PartnerRepo;
+use actix_web::web::Data;
 use async_graphql::Object;
 use async_graphql::Result as GqlResult;
 use sqlx::Pool;
 use sqlx::Postgres;
+use w_db::repository::PartnerRepo;
+use w_models::*;
+
+use crate::server_context::ContextData;
 pub struct Query;
 
 #[Object]
@@ -12,8 +15,9 @@ impl Query {
         "partner"
     }
 
-    async fn channels(&self, _ctx: &async_graphql::Context<'_>) -> GqlResult<Vec<Channel>> {
-        let pool = _ctx.data::<Pool<Postgres>>()?;
+    async fn channels(&self, ctx: &async_graphql::Context<'_>) -> GqlResult<Vec<Channel>> {
+        println!("call channels");
+        let pool = &ctx.data::<Data<ContextData>>()?.pool;
         let channels = sqlx::query_as::<_, Channel>("select * from channels")
             .fetch_all(pool)
             .await?;

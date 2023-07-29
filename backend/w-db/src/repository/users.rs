@@ -1,6 +1,6 @@
 use sqlx::PgPool;
 
-use crate::models::{NewPartner, Partner, SqlxResult, ToSqlValues};
+use w_models::{NewPartner, Partner, SqlxResult, ToSqlValues};
 
 pub struct PartnerRepo<'a>(pub &'a PgPool);
 

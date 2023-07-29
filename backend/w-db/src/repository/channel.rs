@@ -1,7 +1,7 @@
 use itertools::Itertools;
 use sqlx::PgPool;
 
-use crate::models::{Channel, NewChannel, SqlxResult, ToSqlValue, ToSqlValues};
+use w_models::{Channel, NewChannel, SqlxResult, ToSqlValue, ToSqlValues};
 
 pub struct ChannelRepo<'a>(pub &'a PgPool);
 

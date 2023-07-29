@@ -1,12 +1,12 @@
 use itertools::Itertools;
 use sqlx::PgPool;
-use usumurasaki::database::establish_connection;
-use usumurasaki::models::{
+use w_db::establish_connection;
+use w_db::repository::{AffiliateItemRepo, ChannelRepo, PartnerRepo, VideoRepo};
+use w_models::{
     ApplicationResult, ChannelId, LibraryError, NewAffiliateItem, NewChannel, NewPartner, NewVideo,
     NewVideoAffiliateItemsBelonging, Partner, VideoAffiliateItemsBelonging,
     VideoAffiliateItemsImporter, VideoId,
 };
-use usumurasaki::repository::{AffiliateItemRepo, ChannelRepo, PartnerRepo, VideoRepo};
 const VIDEO_AFFILIATE_ITEMS: &[u8] = include_bytes!("../../sample-data/video_affiliate_items.csv");
 
 use csv::{ReaderBuilder, Trim};

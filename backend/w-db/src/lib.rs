@@ -1,3 +1,6 @@
+pub mod repository;
+
+pub use crate::repository::*;
 use sqlx::{postgres::PgPoolOptions, PgPool, Pool};
 
 fn database_url() -> String {

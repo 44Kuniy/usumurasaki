@@ -1,7 +1,7 @@
 use itertools::multiunzip;
 use sqlx::PgPool;
 
-use crate::models::{
+use w_models::{
     AffiliateItem, ChannelId, NewAffiliateItem, NewChannelAffiliateItemsBelonging,
     NewVideoAffiliateItemsBelonging, SqlxResult, ToSqlValues, VideoId,
 };

@@ -1,6 +1,6 @@
 use sqlx::PgPool;
 
-use crate::models::{NewVideo, SqlxResult, ToSqlValues, Video};
+use w_models::{NewVideo, SqlxResult, ToSqlValues, Video};
 
 pub struct VideoRepo<'a>(pub &'a PgPool);
 

@@ -1,0 +1,10 @@
+[package]
+name = "w-db"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+w-models = { path = "../w-models" }
+sqlx = { version = "0.7", features = ["runtime-tokio", "postgres", "chrono"] }
+tokio = { version = "1.20.0", features = ["rt-multi-thread", "macros"] }
+itertools = "*"
