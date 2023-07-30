@@ -1,8 +1,7 @@
-use actix_web::web::head;
 use actix_web::{web, web::Data, App, HttpServer};
 use async_graphql::{EmptyMutation, EmptySubscription, Schema};
 use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse};
-use sqlx::PgPool;
+use w_config::load_config;
 use w_db::establish_connection;
 use w_external_api::GptClient;
 use w_server::{ContextData, Query};
@@ -28,7 +27,8 @@ async fn main() -> std::io::Result<()> {
     println!("GraphiQL IDE: http://localhost:5000");
     let pool = establish_connection().await.unwrap();
 
-    let gpt_client = GptClient::new();
+    let config = load_config().unwrap();
+    let gpt_client = GptClient::new(config.gpt_api_key.clone());
 
     HttpServer::new(move || {
         App::new()
@@ -40,6 +40,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(ContextData {
                 pool: pool.clone(),
                 gpt_client: gpt_client.clone(),
+                config: config.clone(),
             }))
             .service(web::resource("/").to(api_handler))
             .service(

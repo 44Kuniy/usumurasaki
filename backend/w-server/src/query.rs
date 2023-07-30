@@ -17,7 +17,11 @@ impl Query {
 
     async fn channels(&self, ctx: &async_graphql::Context<'_>) -> GqlResult<Vec<Channel>> {
         println!("call channels");
-        let pool = &ctx.data::<Data<ContextData>>()?.pool;
+        let data = ctx.data::<Data<ContextData>>()?;
+        let pool = &data.pool;
+        let config = &data.config;
+        println!("config ❓: {:#?}", config);
+
         let channels = sqlx::query_as::<_, Channel>("select * from channels")
             .fetch_all(pool)
             .await?;

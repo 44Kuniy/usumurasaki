@@ -2,11 +2,12 @@ use itertools::Itertools;
 use sqlx::PgPool;
 use w_db::establish_connection;
 use w_db::repository::{AffiliateItemRepo, ChannelRepo, PartnerRepo, VideoRepo};
+use w_importer::VideoAffiliateItemsImporter;
 use w_models::{
     ApplicationResult, ChannelId, LibraryError, NewAffiliateItem, NewChannel, NewPartner, NewVideo,
-    NewVideoAffiliateItemsBelonging, Partner, VideoAffiliateItemsBelonging,
-    VideoAffiliateItemsImporter, VideoId,
+    NewVideoAffiliateItemsBelonging, Partner, VideoAffiliateItemsBelonging, VideoId,
 };
+
 const VIDEO_AFFILIATE_ITEMS: &[u8] = include_bytes!("../../sample-data/video_affiliate_items.csv");
 
 use csv::{ReaderBuilder, Trim};
